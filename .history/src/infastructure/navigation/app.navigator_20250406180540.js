@@ -59,54 +59,58 @@ const createScreenOptions = ({ route }) => {
 	};
 };
 export const AppNavigator = () => {
-	const { showOverLay, setShowingOverLay } = useContext(ResturantContext);
+	const {showOverLay, setShowingOverLay } = useContext(ResturantContext);
 
 	return (
-		<>
-			<Tab.Navigator screenOptions={createScreenOptions}>
-				<Tab.Screen
-					component={ResturantsNavigator}
-					name="All"
-					options={{
-						tabBarLabel: "Home",
-						popToTopOnBlur: true,
-						freezeOnBlur: true,
-					}}
-					listeners={({ navigation }) => ({
-						tabPress: (e) => {
-							const state = navigation.getState();
-							const allTab = state.routes.find((r) => r.name === "All");
+		<>{showOverLay&&<LoadingDataIndicator/>}<Tab.Navigator screenOptions={createScreenOptions}>
+			<Tab.Screen
+				component={ResturantsNavigator}
+				name="All"
+				options={{
+					tabBarLabel: "Home",
+					popToTopOnBlur: true,
+					freezeOnBlur: true,
+				}}
+				listeners={({ navigation }) => ({
+					tabPress: (e) => {
+						const state = navigation.getState();
+						const allTab = state.routes.find((r) => r.name === "All");
 
-							const nestedRoutes = allTab?.state?.routes;
-							const currentScreen =
-								nestedRoutes?.[nestedRoutes.length - 1]?.name ?? null;
+						const nestedRoutes = allTab?.state?.routes;
+						const currentScreen =
+							nestedRoutes?.[nestedRoutes.length - 1]?.name ?? null;
 
-							if (currentScreen !== "ResturantsScreen") {
-								navigation.reset({
-									index: 0,
-									routes: [
-										{
-											name: "All",
-											state: {
-												index: 0,
-												routes: [{ name: "ResturantsScreen" }],
-											},
+						if (currentScreen !== "ResturantsScreen") {
+							setShowingOverLay(true);
+							navigation.reset({
+								index: 0,
+								routes: [
+									{
+										name: "All",
+										state: {
+											index: 0,
+											routes: [{ name: "ResturantsScreen" }],
 										},
-									],
-								});
-							}
-						},
-					})}
-				/>
-				<Tab.Screen component={MapScreenOverview} name="map" />
-				<Tab.Screen
-					component={FavouriresResturants}
-					name="wishList"
-					options={{ tabBarLabel: "Foodie Picks" }}
-				/>
-				<Tab.Screen component={Cart} name="cart" />
-				<Tab.Screen component={Settings} name="settings" />
-			</Tab.Navigator>
-		</>
+									},
+								],
+							});
+							setTimeout(() => {
+								
+								setShowingOverLay(false);
+							},200)
+						} 
+						
+					},
+				})}
+			/>
+			<Tab.Screen component={MapScreenOverview} name="map" />
+			<Tab.Screen
+				component={FavouriresResturants}
+				name="wishList"
+				options={{ tabBarLabel: "Foodie Picks" }}
+			/>
+			<Tab.Screen component={Cart} name="cart" />
+			<Tab.Screen component={Settings} name="settings" />
+		</Tab.Navigator></>
 	);
 };

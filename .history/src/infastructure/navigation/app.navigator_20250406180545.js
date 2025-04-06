@@ -63,6 +63,7 @@ export const AppNavigator = () => {
 
 	return (
 		<>
+			{showOverLay && <LoadingDataIndicator />}
 			<Tab.Navigator screenOptions={createScreenOptions}>
 				<Tab.Screen
 					component={ResturantsNavigator}
@@ -82,6 +83,7 @@ export const AppNavigator = () => {
 								nestedRoutes?.[nestedRoutes.length - 1]?.name ?? null;
 
 							if (currentScreen !== "ResturantsScreen") {
+								setShowingOverLay(true);
 								navigation.reset({
 									index: 0,
 									routes: [
@@ -94,6 +96,9 @@ export const AppNavigator = () => {
 										},
 									],
 								});
+								setTimeout(() => {
+									setShowingOverLay(false);
+								}, 200);
 							}
 						},
 					})}

@@ -19,7 +19,7 @@ const RestaurantListView = React.forwardRef((props, ref) => {
 });
 
 export const ResturantScreen = ({ navigation }) => {
-	const { resturants, isLoading ,showOverLay} = useContext(ResturantContext);
+	const { resturants, isLoading } = useContext(ResturantContext);
 	const handleNavigation = useCallback((item) => {
 		navigation?.navigate("ResturantDetails", { resturant: item });
 	},[navigation])
@@ -40,9 +40,9 @@ export const ResturantScreen = ({ navigation }) => {
 				<>
 					{!hideHeader && <MainHeader navigation={navigation} />}
 
-					{isLoading && <LoadingDataIndicator />}
 				</>
-				<ListContainer>
+				{					isLoading ?<LoadingDataIndicator />
+				:<ListContainer>
 					<RestaurantListView
 						ref={flatListRef}
 						showsVerticalScrollIndicator={false}
@@ -72,7 +72,7 @@ export const ResturantScreen = ({ navigation }) => {
 						}}
 						keyExtractor={(item) => item.name}
 					/>
-				</ListContainer>
+				</ListContainer>}
 			</AppWrapper>
 		</>
 	);

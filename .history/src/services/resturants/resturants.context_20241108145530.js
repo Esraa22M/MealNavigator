@@ -5,7 +5,6 @@ export const ResturantContext = createContext();
 export const ResturantContextProvider = ({ children }) => {
 	const [resturants, setResturants] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const [showOverLay, setShowingOverLay] = useState(false);
 	const [error, setError] = useState(null);
 	const { location } = useContext(LocationContext);
 	const reteriveResturants = (locationString) => {
@@ -30,7 +29,7 @@ export const ResturantContextProvider = ({ children }) => {
 	}, [location]);
 	return (
 		<ResturantContext.Provider
-			value={{ resturants, isLoading, error, setIsLoading ,setShowingOverLay, showOverLay}}
+			value={{ resturants, isLoading, error, setIsLoading }}
 		>
 			{children}
 		</ResturantContext.Provider>

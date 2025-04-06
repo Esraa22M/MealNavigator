@@ -19,61 +19,61 @@ const RestaurantListView = React.forwardRef((props, ref) => {
 });
 
 export const ResturantScreen = ({ navigation }) => {
-	const { resturants, isLoading ,showOverLay} = useContext(ResturantContext);
+	const { resturants, isLoading, showOverLay } = useContext(ResturantContext);
 	const handleNavigation = useCallback((item) => {
 		navigation?.navigate("ResturantDetails", { resturant: item });
-	},[navigation])
+	}, [navigation])
 	const [hideHeader, setHideHeader] = useState(false);
 	const flatListRef = useRef();
 	const jumpToTop = useCallback(() => {
 		flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
-	},[flatListRef]);
+	}, [flatListRef]);
 	const handleScroll = useCallback((event) => {
 		const scrollY = event.nativeEvent.contentOffset.y;
 		if (scrollY >= 50) setHideHeader(true);
 		else setHideHeader(false);
-	},[setHideHeader])
+	}, [setHideHeader])
 	return (
 		<>
-			<AppWrapper>
-				{hideHeader && <JumpUpButton pressHandler={jumpToTop} />}
-				<>
-					{!hideHeader && <MainHeader navigation={navigation} />}
+			{!showOverLay? < AppWrapper >
+				{ hideHeader && <JumpUpButton pressHandler={jumpToTop} />}
+			<>
+				{!hideHeader && <MainHeader navigation={navigation} />}
 
-					{isLoading && <LoadingDataIndicator />}
-				</>
-				<ListContainer>
-					<RestaurantListView
-						ref={flatListRef}
-						showsVerticalScrollIndicator={false}
-						onScroll={handleScroll}
-						scrollEventThrottle={16}
-						ListHeaderComponent={() => (
-							<>
-								{
-									<HeaderContent
-										variant="body"
-										style={{ fontSize: 28, padding: 16 }}
-									>
-										Discover the perfect dish that matches your cravings!
-									</HeaderContent>
-								}
-							</>
-						)}
-						data={resturants}
-						renderItem={(dataItem) => {
-							return (
-								<Pressable onPress={handleNavigation.bind(this, dataItem.item)}>
-									<Spacer postion={"bottom"} size="large">
-										<ResturantInfoCard resturant={dataItem.item} />
-									</Spacer>
-								</Pressable>
-							);
-						}}
-						keyExtractor={(item) => item.name}
-					/>
-				</ListContainer>
-			</AppWrapper>
+				{isLoading && <LoadingDataIndicator />}
+			</>
+			<ListContainer>
+				<RestaurantListView
+					ref={flatListRef}
+					showsVerticalScrollIndicator={false}
+					onScroll={handleScroll}
+					scrollEventThrottle={16}
+					ListHeaderComponent={() => (
+						<>
+							{
+								<HeaderContent
+									variant="body"
+									style={{ fontSize: 28, padding: 16 }}
+								>
+									Discover the perfect dish that matches your cravings!
+								</HeaderContent>
+							}
+						</>
+					)}
+					data={resturants}
+					renderItem={(dataItem) => {
+						return (
+							<Pressable onPress={handleNavigation.bind(this, dataItem.item)}>
+								<Spacer postion={"bottom"} size="large">
+									<ResturantInfoCard resturant={dataItem.item} />
+								</Spacer>
+							</Pressable>
+						);
+					}}
+					keyExtractor={(item) => item.name}
+				/>
+			</ListContainer>
+		</AppWrapper >:<LoadingDataIndicator/>}
 		</>
 	);
 };

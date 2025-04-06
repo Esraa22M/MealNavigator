@@ -8,15 +8,14 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { ResturantsNavigator } from "./resturant.navigator";
 import CustomTabIcon from "./customIcon.component";
-import { useContext } from "react";
+import { useContext,  } from "react";
 import { CartContext } from "../../services/cart/cart.context";
 import { MapScreenOverview } from "../../features/map/screens/map-overview/map-overview.screens";
-import { FavouriresResturants } from "../../features/resturants/screens/favourites-resturants/favourites-resturants.screens";
+import {FavouriresResturants} from "../../features/resturants/screens/favourites-resturants/favourites-resturants.screens";
 import { Cart } from "../../features/resturants/screens/cart-screen/cart.components";
 import { Settings } from "../../features/account/screens/settings/settings.components";
 import { FavouritesContext } from "../../services/favourites/favourites.context";
 import { ResturantContext } from "../../services/resturants/resturants.context";
-import { LoadingDataIndicator } from "../../ui/loading-data-indicator/loading-data-indicator.components";
 const Tab = createBottomTabNavigator();
 
 const TAB_ICON = {
@@ -29,6 +28,7 @@ const TAB_ICON = {
 const createScreenOptions = ({ route }) => {
 	const { cartCount } = useContext(CartContext);
 	const { favouritesCount } = useContext(FavouritesContext);
+	const {isLoading , setIsLoading } = useContext(ResturantContext);
 	return {
 		headerShown: false,
 		tabBarIcon: ({ color, size }) => {
@@ -59,54 +59,52 @@ const createScreenOptions = ({ route }) => {
 	};
 };
 export const AppNavigator = () => {
-	const { showOverLay, setShowingOverLay } = useContext(ResturantContext);
-
 	return (
-		<>
-			<Tab.Navigator screenOptions={createScreenOptions}>
-				<Tab.Screen
-					component={ResturantsNavigator}
-					name="All"
-					options={{
-						tabBarLabel: "Home",
-						popToTopOnBlur: true,
-						freezeOnBlur: true,
-					}}
-					listeners={({ navigation }) => ({
-						tabPress: (e) => {
-							const state = navigation.getState();
-							const allTab = state.routes.find((r) => r.name === "All");
-
-							const nestedRoutes = allTab?.state?.routes;
-							const currentScreen =
-								nestedRoutes?.[nestedRoutes.length - 1]?.name ?? null;
-
-							if (currentScreen !== "ResturantsScreen") {
-								navigation.reset({
-									index: 0,
-									routes: [
-										{
-											name: "All",
-											state: {
-												index: 0,
-												routes: [{ name: "ResturantsScreen" }],
-											},
-										},
-									],
-								});
-							}
-						},
-					})}
-				/>
-				<Tab.Screen component={MapScreenOverview} name="map" />
-				<Tab.Screen
-					component={FavouriresResturants}
-					name="wishList"
-					options={{ tabBarLabel: "Foodie Picks" }}
-				/>
-				<Tab.Screen component={Cart} name="cart" />
-				<Tab.Screen component={Settings} name="settings" />
-			</Tab.Navigator>
-		</>
+		<Tab.Navigator screenOptions={createScreenOptions}>
+			<Tab.Screen
+				component={ResturantsNavigator}
+				name="All"
+				options={{
+					tabBarLabel: "Home",
+					popToTopOnBlur: true,
+					freezeOnBlur: true,
+				}}
+				listeners={({ navigation }) => ({
+					tabPress: (e) => {
+					  const state = navigation.getState();
+					  const allTab = state.routes.find((r) => r.name === "All");
+				  
+					  const nestedRoutes = allTab?.state?.routes;
+					  const currentScreen =
+						nestedRoutes?.[nestedRoutes.length - 1]?.name ?? null;
+				  
+					  if (currentScreen !== "ResturantsScreen") {
+						e.preventDefault();
+						navigation.reset({
+						  index: 0,
+						  routes: [
+							{
+							  name: "All",
+							  state: {
+								index: 0,
+								routes: [{ name: "ResturantsScreen" }],
+							  },
+							},
+						  ],
+						});
+					  }
+					},
+				  })}
+				  
+			/>
+			<Tab.Screen component={MapScreenOverview} name="map" />
+			<Tab.Screen
+				component={FavouriresResturants}
+				name="wishList"
+				options={{ tabBarLabel: "Foodie Picks" }}
+			/>
+			<Tab.Screen component={Cart} name="cart" />
+			<Tab.Screen component={Settings} name="settings" />
+		</Tab.Navigator>
 	);
 };
