@@ -1,0 +1,17 @@
+import { SearchContainer, SearchBar } from "./search.styles";
+import { useContext } from "react";
+import { Searchbar } from "react-native-paper";
+import { LocationContext } from "../../../../services/location/location.context";
+export const Search = () => {
+	const { keyWord, search, setKeyWord } = useContext(LocationContext);
+	return (
+		<SearchContainer>
+			<SearchBar
+				style={{ width: "95%" }}
+				placeholder="Search for location"
+				value={keyWord}
+				onChangeText={setKeyWord}
+			/>
+		</SearchContainer>
+	);
+};

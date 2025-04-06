@@ -1,0 +1,16 @@
+import styled from "styled-components/native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
+export const LoginOuterContainer = styled(View)`
+	flex-direction: row;
+	background-color: red;
+	flex: 1;
+`;
+export const LoginContainer = styled(SafeAreaView)`
+	width: 80%;
+	background-color: red;
+	align-self: center;
+	background-color: rgba(100, 100, 70, 0.5);
+	paddingvertical: ${(props) => props.theme.space[4]};
+	paddinghorizontal: ${(props) => props.theme.space[3]};
+`;

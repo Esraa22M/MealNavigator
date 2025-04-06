@@ -1,0 +1,43 @@
+import {
+	MainHeaderContainer,
+	MainHeaderOuterContainer,
+	IconWrapper,
+	FavouritesWrapper,
+} from "./main-header.styles";
+import Logo from "../../../../../assets/bg-images/dish-dinner-svgrepo-com.svg";
+
+import { HeaderContent } from "../../../../components/header/header.styles";
+import { FavouritesView } from "../favourites/favourites.components";
+import { Spacer } from "../../../../components/spacer/spacer.component";
+import { Search } from "../search/search.components";
+import { Pressable, View , Text} from "react-native";
+import { red } from "react-native-reanimated/lib/typescript/Colors";
+export const MainHeader = () => {
+	return (
+		<>
+			<	MainHeaderContainer>
+				<FavouritesView />
+
+				<View style={{ borderWidth: 1,
+    borderRadius: 2,
+    borderColor: '#ddd',
+    borderBottomWidth: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 10,}} >
+					{ <Logo /> }
+				</View>
+			</	MainHeaderContainer
+			>
+			<Search />
+
+			{/* <Spacer postion={"bottom"} size="large" /> */}
+			{/* <Spacer postion={"bottom"} size="large" /> */}
+		</>
+	);
+};

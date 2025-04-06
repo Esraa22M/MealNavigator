@@ -1,0 +1,50 @@
+import {
+	MainHeaderContainer,
+	MainHeaderOuterContainer,
+	IconWrapper,
+	FavouritesWrapper,
+} from "./main-header.styles";
+import Logo from "../../../../../assets/bg-images/dish-dinner-svgrepo-com.svg";
+
+import { HeaderContent } from "../../../../components/header/header.styles";
+import { FavouritesView } from "../favourites/favourites.components";
+import { Spacer } from "../../../../components/spacer/spacer.component";
+import { Search } from "../search/search.components";
+import { Pressable, View , Text} from "react-native";
+import { red } from "react-native-reanimated/lib/typescript/Colors";
+export const MainHeader = () => {
+	return (
+		<>
+			<	MainHeaderContainer>
+				<View style={{ 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+	backgroundColor:'white',
+	borderWidth:1,
+	borderRadius:10000
+    }}><FavouritesView /></View>
+
+				<View style={{ 
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+	backgroundColor:'white',
+	borderWidth:1,
+	borderRadius:10000
+    }} >
+					{ <Logo /> }
+				</View>
+			</	MainHeaderContainer
+			>
+			<Search />
+
+			{/* <Spacer postion={"bottom"} size="large" /> */}
+			{/* <Spacer postion={"bottom"} size="large" /> */}
+		</>
+	);
+};
